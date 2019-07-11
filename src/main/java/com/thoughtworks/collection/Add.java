@@ -4,19 +4,19 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Add {
     public int getSumOfEvens(int leftBorder, int rightBorder) {
-        int sum = 0;
         if(leftBorder > rightBorder){
             int temp = leftBorder;
             leftBorder = rightBorder;
             rightBorder = temp;
         }
-        for (int i = leftBorder; i <= rightBorder; i++) {
-            sum += (i % 2 == 0 ? i : 0);
-        }
-        return sum;
+        return Stream.iterate(leftBorder, n -> n + 1).limit(rightBorder - leftBorder + 1)
+                .filter(v -> v % 2 == 0)
+                .reduce(0, (pre, curr) -> pre + curr);
+
     }
 
     public int getSumOfOdds(int leftBorder, int rightBorder) {
